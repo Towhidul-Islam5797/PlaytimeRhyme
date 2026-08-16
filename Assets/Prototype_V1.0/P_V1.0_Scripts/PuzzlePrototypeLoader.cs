@@ -1,24 +1,34 @@
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 public class PuzzlePrototypeLoader : MonoBehaviour
 {
-    void Start()
+    [SerializeField] string folderPath = "Assets/Prototype_V1.0/P_V1.0_Resources/Sprites/Couplets";
+
+    public PuzzleData[] puzzles;
+
+    void Awake()
     {
-        Sprite[] sprites = Resources.LoadAll<Sprite>("Sprites/Couplets");
-        PuzzleData[] puzzles = new PuzzleData[sprites.Length];
+#if UNITY_EDITOR
+        string[] guids = AssetDatabase.FindAssets("t:Sprite", new[] { folderPath });
+        puzzles = new PuzzleData[guids.Length];
 
-        for (int i = 0; i < sprites.Length; i++)
+        for (int i = 0; i < guids.Length; i++)
         {
-            puzzles[i] = ParseFileName(sprites[i].name);
+            string path = AssetDatabase.GUIDToAssetPath(guids[i]);
+            Sprite sprite = AssetDatabase.LoadAssetAtPath<Sprite>(path);
+            string fileName = System.IO.Path.GetFileNameWithoutExtension(path);
+            puzzles[i] = ParseFileName(fileName, sprite);
         }
-
-        foreach (PuzzleData puzzle in puzzles)
-        {
-            Debug.Log($"Level {puzzle.levelNumber}: {string.Join(", ", puzzle.answerWords)}");
-        }
+#else
+        Debug.LogWarning("This prototype loader only works in the Unity Editor, not in a build.");
+        puzzles = new PuzzleData[0];
+#endif
     }
 
-    PuzzleData ParseFileName(string fileName)
+    PuzzleData ParseFileName(string fileName, Sprite sprite)
     {
         string[] parts = fileName.Split(new string[] { ". " }, System.StringSplitOptions.None);
         string answerPart = parts[0];
@@ -29,6 +39,7 @@ public class PuzzlePrototypeLoader : MonoBehaviour
         data.levelNumber = int.Parse(levelPart);
         data.answerWords = answerPart.Split(' ');
         data.imageFileName = fileName;
+        data.image = sprite;
 
         return data;
     }
