@@ -7,13 +7,13 @@ public class PuzzlePrototypeLoader : MonoBehaviour
 {
     [SerializeField] string folderPath = "Assets/Prototype_V1.0/P_V1.0_Resources/Sprites/Couplets";
 
-    public PuzzleData[] puzzles;
+    public P_PuzzleData[] puzzles;
 
     void Awake()
     {
 #if UNITY_EDITOR
         string[] guids = AssetDatabase.FindAssets("t:Sprite", new[] { folderPath });
-        puzzles = new PuzzleData[guids.Length];
+        puzzles = new P_PuzzleData[guids.Length];
 
         for (int i = 0; i < guids.Length; i++)
         {
@@ -28,13 +28,13 @@ public class PuzzlePrototypeLoader : MonoBehaviour
 #endif
     }
 
-    PuzzleData ParseFileName(string fileName, Sprite sprite)
+    P_PuzzleData ParseFileName(string fileName, Sprite sprite)
     {
         string[] parts = fileName.Split(new string[] { ". " }, System.StringSplitOptions.None);
         string answerPart = parts[0];
         string levelPart = parts[1];
 
-        PuzzleData data = new PuzzleData();
+        P_PuzzleData data = new P_PuzzleData();
         data.category = "Couplets";
         data.levelNumber = int.Parse(levelPart);
         data.answerWords = answerPart.Split(' ');

@@ -25,7 +25,7 @@ public class PuzzleViewer : MonoBehaviour
 
     void ShowPuzzle(int index)
     {
-        PuzzleData puzzle = loader.puzzles[index];
+        P_PuzzleData puzzle = loader.puzzles[index];
         puzzleImageDisplay.sprite = puzzle.image;
         Debug.Log($"Showing Level {puzzle.levelNumber}: {string.Join(", ", puzzle.answerWords)}");
     }

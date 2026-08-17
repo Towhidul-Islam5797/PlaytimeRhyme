@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [System.Serializable]
-public class PuzzleData
+public class P_PuzzleData
 {
     public string category;
     public int levelNumber;
