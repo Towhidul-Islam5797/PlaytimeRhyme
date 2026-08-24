@@ -435,7 +435,10 @@ using System.Collections.Generic;
 public class GameSession : MonoBehaviour
 {
     #region Configuration
+    [Header("Puzzle Data")]
     [SerializeField] PuzzleLoader loader;
+
+    [Header("Puzzle Display")]
     [SerializeField] Image puzzleImageDisplay;
     [SerializeField] Transform tileTray;
     [SerializeField] Transform answerSlotRow;
@@ -490,6 +493,7 @@ public class GameSession : MonoBehaviour
 
         puzzleImageDisplay.sprite = loader.GetSpriteForPuzzle(puzzle);
         UpdateLevelText(puzzle);
+        feedbackBanner.SetActive(false);
 
         SpawnSlots(puzzle.answerWords);
         SpawnTiles(puzzle.jumbleLetters);
@@ -618,10 +622,18 @@ public class GameSession : MonoBehaviour
     }
     #endregion
 
+    #region Feedback Banner
+    [Header("Feedback Banner")]
+    [SerializeField] GameObject feedbackBanner;
+    [SerializeField] GameObject correctImage;
+    [SerializeField] GameObject tryAgainImage;
+    #endregion
+
     #region Answer Checking
     void CheckAnswer()
     {
         string correctAnswer = string.Join("", GetCurrentPuzzle().answerWords);
+        bool allCorrect = true;
 
         for (int i = 0; i < currentSlots.Count; i++)
         {
@@ -635,8 +647,18 @@ public class GameSession : MonoBehaviour
             else
             {
                 currentSlots[i].ShowWrong();
+                allCorrect = false;
             }
         }
+
+        ShowFeedback(allCorrect);
+    }
+
+    void ShowFeedback(bool wasCorrect)
+    {
+        feedbackBanner.SetActive(true);
+        correctImage.SetActive(wasCorrect);
+        tryAgainImage.SetActive(!wasCorrect);
     }
     #endregion
 
