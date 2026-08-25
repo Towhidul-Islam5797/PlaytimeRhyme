@@ -3129,8 +3129,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0c7f794c0196ef4db597278657000c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PuzzleLoader
-  folderPath: Assets/_Import/Level_Easy/Rhyme_Couplets_Saga
-  csvPath: Assets/_Import/Level_Easy/Rhyme_Couplets_Saga/Data/Couplets.csv
+  category: Couplets
+  folderPath: Levels/Rhyme_Couplets_Saga
+  csvPath: Rhyme_Couplets_Saga/Data/Couplets.csv
   puzzles: []
 --- !u!1 &921517431
 GameObject:

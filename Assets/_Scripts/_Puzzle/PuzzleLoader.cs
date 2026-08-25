@@ -9,17 +9,113 @@
 #endregion
 
 #region Phase 1 Sprint 5 - PuzzleLoader (CSV + Sprite loading)
+//using UnityEngine;
+//using System.Collections.Generic;
+//#if UNITY_EDITOR
+//using UnityEditor;
+//#endif
+
+//public class PuzzleLoader : MonoBehaviour
+//{
+//    #region Configuration
+//    [SerializeField] string folderPath = "Assets/_Import/Level_Easy/Rhyme_Couplets_Saga";
+//    [SerializeField] string csvPath = "Assets/_Import/Level_Easy/Rhyme_Couplets_Saga/Data/Couplets.csv";
+//    #endregion
+
+//    #region Data
+//    public PuzzleData[] puzzles;
+//    Dictionary<string, Sprite> spritesByFileName = new Dictionary<string, Sprite>();
+//    #endregion
+
+//    #region Unity Lifecycle
+//    void Awake()
+//    {
+//#if UNITY_EDITOR
+//        LoadSprites();
+//        LoadPuzzlesFromCsv();
+//#else
+//        Debug.LogWarning("PuzzleLoader currently only works in the Unity Editor, not in a build. Real build support (Resources.Load) still needs to be decided.");
+//        puzzles = new PuzzleData[0];
+//#endif
+//    }
+//    #endregion
+
+//    #region Loading
+//#if UNITY_EDITOR
+//    void LoadSprites()
+//    {
+//        string[] guids = AssetDatabase.FindAssets("t:Sprite", new[] { folderPath });
+//        foreach (string guid in guids)
+//        {
+//            string path = AssetDatabase.GUIDToAssetPath(guid);
+//            Sprite sprite = AssetDatabase.LoadAssetAtPath<Sprite>(path);
+//            string fileNameWithExtension = System.IO.Path.GetFileName(path);
+//            spritesByFileName[fileNameWithExtension] = sprite;
+//        }
+//    }
+
+//    void LoadPuzzlesFromCsv()
+//    {
+//        TextAsset csvFile = AssetDatabase.LoadAssetAtPath<TextAsset>(csvPath);
+//        if (csvFile == null)
+//        {
+//            Debug.LogError($"Could not find CSV at {csvPath}");
+//            puzzles = new PuzzleData[0];
+//            return;
+//        }
+
+//        List<PuzzleData> loadedPuzzles = new List<PuzzleData>();
+//        string[] lines = csvFile.text.Split('\n');
+
+//        for (int i = 1; i < lines.Length; i++) // skip header row
+//        {
+//            string line = lines[i].Trim();
+//            if (string.IsNullOrEmpty(line)) continue;
+
+//            string[] columns = line.Split(',');
+//            if (columns.Length < 4) continue;
+
+//            PuzzleData data = new PuzzleData();
+//            data.category = "Couplets";
+//            data.levelNumber = int.Parse(columns[0]);
+//            data.answerWords = columns[1].Split(' ');
+//            data.jumbleLetters = columns[2];
+//            data.imageFileName = columns[3];
+
+//            if (!spritesByFileName.ContainsKey(data.imageFileName))
+//            {
+//                Debug.LogWarning($"Level {data.levelNumber}: no sprite found for '{data.imageFileName}'");
+//            }
+
+//            loadedPuzzles.Add(data);
+//        }
+
+//        puzzles = loadedPuzzles.ToArray();
+//        Debug.Log($"Loaded {puzzles.Length} puzzles from CSV.");
+//    }
+//#endif
+//    #endregion
+
+//    #region Public Methods
+//    public Sprite GetSpriteForPuzzle(PuzzleData puzzle)
+//    {
+//        spritesByFileName.TryGetValue(puzzle.imageFileName, out Sprite sprite);
+//        return sprite;
+//    }
+//    #endregion
+//}
+#endregion
+
+#region Phase 1 Sprint 6 - PuzzleLoader (Resources.Load for build support)
 using UnityEngine;
 using System.Collections.Generic;
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 
 public class PuzzleLoader : MonoBehaviour
 {
     #region Configuration
-    [SerializeField] string folderPath = "Assets/_Import/Level_Easy/Rhyme_Couplets_Saga";
-    [SerializeField] string csvPath = "Assets/_Import/Level_Easy/Rhyme_Couplets_Saga/Data/Couplets.csv";
+    [SerializeField] string category = "Couplets";
+    [SerializeField] string folderPath = "Levels/Rhyme_Couplets_Saga";
+    [SerializeField] string csvPath = "Levels/Rhyme_Couplets_Saga/Data/Couplets";
     #endregion
 
     #region Data
@@ -30,36 +126,27 @@ public class PuzzleLoader : MonoBehaviour
     #region Unity Lifecycle
     void Awake()
     {
-#if UNITY_EDITOR
         LoadSprites();
         LoadPuzzlesFromCsv();
-#else
-        Debug.LogWarning("PuzzleLoader currently only works in the Unity Editor, not in a build. Real build support (Resources.Load) still needs to be decided.");
-        puzzles = new PuzzleData[0];
-#endif
     }
     #endregion
 
     #region Loading
-#if UNITY_EDITOR
     void LoadSprites()
     {
-        string[] guids = AssetDatabase.FindAssets("t:Sprite", new[] { folderPath });
-        foreach (string guid in guids)
+        Sprite[] sprites = Resources.LoadAll<Sprite>(folderPath);
+        foreach (Sprite sprite in sprites)
         {
-            string path = AssetDatabase.GUIDToAssetPath(guid);
-            Sprite sprite = AssetDatabase.LoadAssetAtPath<Sprite>(path);
-            string fileNameWithExtension = System.IO.Path.GetFileName(path);
-            spritesByFileName[fileNameWithExtension] = sprite;
+            spritesByFileName[sprite.name] = sprite;
         }
     }
 
     void LoadPuzzlesFromCsv()
     {
-        TextAsset csvFile = AssetDatabase.LoadAssetAtPath<TextAsset>(csvPath);
+        TextAsset csvFile = Resources.Load<TextAsset>(csvPath);
         if (csvFile == null)
         {
-            Debug.LogError($"Could not find CSV at {csvPath}");
+            Debug.LogError($"Could not find CSV at Resources/{csvPath}");
             puzzles = new PuzzleData[0];
             return;
         }
@@ -76,13 +163,14 @@ public class PuzzleLoader : MonoBehaviour
             if (columns.Length < 4) continue;
 
             PuzzleData data = new PuzzleData();
-            data.category = "Couplets";
+            data.category = category;
             data.levelNumber = int.Parse(columns[0]);
             data.answerWords = columns[1].Split(' ');
             data.jumbleLetters = columns[2];
             data.imageFileName = columns[3];
 
-            if (!spritesByFileName.ContainsKey(data.imageFileName))
+            string nameWithoutExtension = System.IO.Path.GetFileNameWithoutExtension(data.imageFileName);
+            if (!spritesByFileName.ContainsKey(nameWithoutExtension))
             {
                 Debug.LogWarning($"Level {data.levelNumber}: no sprite found for '{data.imageFileName}'");
             }
@@ -93,13 +181,13 @@ public class PuzzleLoader : MonoBehaviour
         puzzles = loadedPuzzles.ToArray();
         Debug.Log($"Loaded {puzzles.Length} puzzles from CSV.");
     }
-#endif
     #endregion
 
     #region Public Methods
     public Sprite GetSpriteForPuzzle(PuzzleData puzzle)
     {
-        spritesByFileName.TryGetValue(puzzle.imageFileName, out Sprite sprite);
+        string nameWithoutExtension = System.IO.Path.GetFileNameWithoutExtension(puzzle.imageFileName);
+        spritesByFileName.TryGetValue(nameWithoutExtension, out Sprite sprite);
         return sprite;
     }
     #endregion
