@@ -5714,6 +5714,13 @@ MonoBehaviour:
   startingTimeSeconds: 60
   levelFailedPanel: {fileID: 1433875022}
   levelPassedPanel: {fileID: 921517431}
+  starIcons:
+  - {fileID: 1037500103}
+  - {fileID: 1760187100}
+  - {fileID: 576062697}
+  starFilledSprite: {fileID: 21300000, guid: 1bd010d7f191f4e438466a89944a3934, type: 3}
+  starEmptySprite: {fileID: 21300000, guid: adaac3c9ca20c9a4aafb61e79b07dfa0, type: 3}
+  hintBonusPill: {fileID: 205387680}
   feedbackBanner: {fileID: 303611245}
   correctImage: {fileID: 1066339545}
   tryAgainImage: {fileID: 725448365}
