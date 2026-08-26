@@ -28,5 +28,10 @@ public class SceneShuffler : MonoBehaviour
     {
         SceneManager.LoadScene("GameScene");
     }
+
+    public void SettingsScene()
+    {
+        SceneManager.LoadScene("SettingsScene");
+    }
 }
 #endregion
