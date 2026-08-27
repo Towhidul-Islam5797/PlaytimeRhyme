@@ -114,6 +114,7 @@ public class PuzzleLoader : MonoBehaviour
 {
     #region Configuration
     [SerializeField] string category = "Couplets";
+    public string Category => category;
     [SerializeField] string folderPath = "Levels/Rhyme_Couplets_Saga";
     [SerializeField] string csvPath = "Levels/Rhyme_Couplets_Saga/Data/Couplets";
     #endregion
