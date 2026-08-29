@@ -1190,6 +1190,9 @@ public class GameSession : MonoBehaviour
         bool usedAnyAid = usedHint || usedUndo || usedScramble;
         int starCount = usedAnyAid ? 2 : 3;
 
+        PuzzleData puzzle = GetCurrentPuzzle();
+        ProgressManager.SetStars(puzzle.category, puzzle.levelNumber, starCount);
+
         UpdateStarDisplay(starCount);
         UpdateHintBonusDisplay();
     }
