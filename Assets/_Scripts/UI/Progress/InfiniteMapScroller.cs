@@ -752,6 +752,173 @@
 #endregion
 
 #region Milestone 1 - InfiniteMapScroller (multi-category, auto-continuing segment generation)
+//using UnityEngine;
+//using UnityEngine.UI;
+//using System.Collections.Generic;
+
+//public class InfiniteMapScroller : MonoBehaviour
+//{
+//    #region Configuration
+//    [SerializeField] ScrollRect scrollRect;
+//    [SerializeField] RectTransform content;
+//    [SerializeField] PuzzleLoader puzzleLoader;
+//    [SerializeField] List<MapTheme> themes;
+//    [SerializeField] float generateThreshold = 0.2f;
+//    #endregion
+
+//    #region Segment Tracking
+//    class SegmentInfo
+//    {
+//        public GameObject segmentObject;
+//        public int categoryIndex;
+//        public int startLevel;
+//        public int endLevel;
+//        public float yPosition;
+//        public float height;
+//    }
+
+//    List<SegmentInfo> activeSegments = new List<SegmentInfo>();
+//    int segmentsGeneratedInCategory;
+//    int currentCategoryIndex;
+//    int totalLevelsInCategory;
+//    MapTheme activeTheme;
+//    #endregion
+
+//    #region Unity Lifecycle
+//    void Start()
+//    {
+//        StartAtCategory(0);
+//        scrollRect.onValueChanged.AddListener(OnScrolled);
+//    }
+//    #endregion
+
+//    #region Category Loading
+//    public void StartAtCategory(int categoryIndex)
+//    {
+//        foreach (SegmentInfo segment in activeSegments)
+//        {
+//            Destroy(segment.segmentObject);
+//        }
+//        activeSegments.Clear();
+
+//        SwitchToCategory(categoryIndex);
+
+//        GenerateNextSegmentAbove();
+//        scrollRect.verticalNormalizedPosition = 0f;
+//    }
+
+//    void SwitchToCategory(int categoryIndex)
+//    {
+//        currentCategoryIndex = categoryIndex;
+//        segmentsGeneratedInCategory = 0;
+
+//        puzzleLoader.LoadCategory(categoryIndex);
+//        activeTheme = themes[categoryIndex];
+//        totalLevelsInCategory = puzzleLoader.puzzles.Length;
+//    }
+//    #endregion
+
+//    #region Scroll Handling
+//    void OnScrolled(Vector2 position)
+//    {
+//        if (position.y > 1f - generateThreshold)
+//        {
+//            GenerateNextSegmentAbove();
+//        }
+//    }
+//    #endregion
+
+//    #region Segment Generation
+//    void GenerateNextSegmentAbove()
+//    {
+//        SegmentInfo lastSegment = activeSegments.Count == 0 ? null : activeSegments[activeSegments.Count - 1];
+//        int startLevel = lastSegment == null ? 1 : lastSegment.endLevel + 1;
+
+//        if (startLevel > totalLevelsInCategory)
+//        {
+//            int nextCategoryIndex = currentCategoryIndex + 1;
+//            if (nextCategoryIndex >= themes.Count) return;
+
+//            SwitchToCategory(nextCategoryIndex);
+//            startLevel = 1;
+//        }
+
+//        if (activeTheme.segmentVariants == null || activeTheme.segmentVariants.Length == 0)
+//        {
+//            Debug.LogWarning($"Category '{activeTheme.themeName}' has no segment variants assigned yet - stopping generation here.");
+//            return;
+//        }
+
+//        int remaining = totalLevelsInCategory - startLevel + 1;
+//        MapSegmentView tentativeVariant = activeTheme.segmentVariants[segmentsGeneratedInCategory % activeTheme.segmentVariants.Length];
+
+//        bool useFinal = activeTheme.finalSegmentPrefab != null && remaining <= tentativeVariant.NodeCount;
+//        MapSegmentView chosenPrefab = useFinal ? activeTheme.finalSegmentPrefab : tentativeVariant;
+
+//        int endLevel = Mathf.Min(startLevel + chosenPrefab.NodeCount - 1, totalLevelsInCategory);
+
+//        SegmentInfo previousSegment = activeSegments.Count == 0 ? null : activeSegments[activeSegments.Count - 1];
+//        float yPosition = previousSegment == null ? 0f : previousSegment.yPosition + previousSegment.height;
+
+//        GameObject segmentObj = Instantiate(chosenPrefab.gameObject, content);
+//        RectTransform segmentRect = segmentObj.GetComponent<RectTransform>();
+//        segmentRect.anchoredPosition = new Vector2(0, yPosition);
+//        float height = segmentRect.rect.height;
+
+//        MapSegmentView segmentView = segmentObj.GetComponent<MapSegmentView>();
+//        SetupNodesForSegment(segmentView, startLevel, endLevel);
+
+//        activeSegments.Add(new SegmentInfo
+//        {
+//            segmentObject = segmentObj,
+//            categoryIndex = currentCategoryIndex,
+//            startLevel = startLevel,
+//            endLevel = endLevel,
+//            yPosition = yPosition,
+//            height = height
+//        });
+
+//        if (!useFinal) segmentsGeneratedInCategory++;
+
+//        UpdateContentHeight();
+//    }
+
+//    void SetupNodesForSegment(MapSegmentView segmentView, int startLevel, int endLevel)
+//    {
+//        string category = puzzleLoader.Category;
+//        int nodesUsed = endLevel - startLevel + 1;
+
+//        for (int i = 0; i < segmentView.NodeCount; i++)
+//        {
+//            LevelNode node = segmentView.GetNode(i);
+
+//            if (i >= nodesUsed)
+//            {
+//                node.gameObject.SetActive(false);
+//                continue;
+//            }
+
+//            PuzzleData puzzle = puzzleLoader.puzzles[startLevel - 1 + i];
+//            bool locked = ProgressManager.IsLevelLocked(category, puzzle.levelNumber);
+//            bool completed = ProgressManager.IsLevelCompleted(category, puzzle.levelNumber);
+//            int stars = ProgressManager.GetStars(category, puzzle.levelNumber);
+
+//            node.Setup(puzzle.levelNumber, locked, completed, stars);
+//        }
+//    }
+//    #endregion
+
+//    #region Content Sizing
+//    void UpdateContentHeight()
+//    {
+//        SegmentInfo last = activeSegments[activeSegments.Count - 1];
+//        content.sizeDelta = new Vector2(content.sizeDelta.x, last.yPosition + last.height);
+//    }
+//    #endregion
+//}
+#endregion
+
+#region Milestone 1 - InfiniteMapScroller (multi-category, category-locked segment generation)
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
@@ -781,6 +948,7 @@ public class InfiniteMapScroller : MonoBehaviour
     int segmentsGeneratedInCategory;
     int currentCategoryIndex;
     int totalLevelsInCategory;
+    bool categoryUnlocked;
     MapTheme activeTheme;
     #endregion
 
@@ -815,6 +983,7 @@ public class InfiniteMapScroller : MonoBehaviour
         puzzleLoader.LoadCategory(categoryIndex);
         activeTheme = themes[categoryIndex];
         totalLevelsInCategory = puzzleLoader.puzzles.Length;
+        categoryUnlocked = ProgressManager.IsCategoryUnlocked(categoryIndex, puzzleLoader);
     }
     #endregion
 
@@ -899,11 +1068,12 @@ public class InfiniteMapScroller : MonoBehaviour
             }
 
             PuzzleData puzzle = puzzleLoader.puzzles[startLevel - 1 + i];
-            bool locked = ProgressManager.IsLevelLocked(category, puzzle.levelNumber);
+
+            bool locked = !categoryUnlocked || ProgressManager.IsLevelLocked(category, puzzle.levelNumber);
             bool completed = ProgressManager.IsLevelCompleted(category, puzzle.levelNumber);
             int stars = ProgressManager.GetStars(category, puzzle.levelNumber);
 
-            node.Setup(puzzle.levelNumber, locked, completed, stars);
+            node.Setup(currentCategoryIndex, puzzle.levelNumber, locked, completed, stars);
         }
     }
     #endregion

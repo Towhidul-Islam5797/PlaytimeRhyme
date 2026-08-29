@@ -1128,6 +1128,11 @@ public class GameSession : MonoBehaviour
     #region Unity Lifecycle
     void Start()
     {
+        loader.LoadCategory(SelectedLevel.categoryIndex);
+
+        currentIndex = System.Array.FindIndex(loader.puzzles, p => p.levelNumber == SelectedLevel.levelNumber);
+        if (currentIndex < 0) currentIndex = 0;
+
         LoadPuzzle();
     }
 
