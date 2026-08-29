@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 047cdf8c6007b6d4288d79424bb81388
+guid: 39bcc363de0974942aadbe85c7d2098c
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -8695395861255918273
-    second: WHOLE HOLE. 15_0
+      213: 4650459530972154250
+    second: file_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -152,13 +152,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: WHOLE HOLE. 15_0
+      name: file_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 1536
-        height: 1024
+        width: 768
+        height: 2048
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -167,8 +167,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f3d607cc88fb35780800000000000000
-      internalID: -8695395861255918273
+      spriteID: a89cce1ed40c98040800000000000000
+      internalID: 4650459530972154250
       vertices: []
       indices: 
       edges: []
@@ -187,7 +187,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      WHOLE HOLE. 15_0: -8695395861255918273
+      file_0: 4650459530972154250
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

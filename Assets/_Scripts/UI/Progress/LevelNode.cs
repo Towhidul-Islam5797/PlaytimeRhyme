@@ -1,4 +1,4 @@
-#region Milestone 2 - LevelNode (level-select map node)
+#region Milestone 1 - LevelNode (level-select map node)
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;

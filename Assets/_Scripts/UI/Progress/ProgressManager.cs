@@ -1,4 +1,4 @@
-#region Milestone 2 - ProgressManager (minimal save system)
+#region Milestone 1 - ProgressManager (minimal save system)
 using UnityEngine;
 
 public static class ProgressManager
