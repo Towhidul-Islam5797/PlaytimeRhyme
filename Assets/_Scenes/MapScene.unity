@@ -1527,21 +1527,27 @@ MonoBehaviour:
   - categoryName: Couplet
     folderPath: Levels/Rhyme_Couplets_Saga
     csvPath: Levels/Rhyme_Couplets_Saga/Data/Couplets
+    totalLevels: 310
   - categoryName: Bonus
     folderPath: Levels/Rhyme_Bonus
     csvPath: Levels/Rhyme_Bonus/Data/Bonus
+    totalLevels: 89
   - categoryName: Trios
     folderPath: Levels/Rhyme_Trios
     csvPath: Levels/Rhyme_Trios/Data/Trios
+    totalLevels: 90
   - categoryName: Quartets
     folderPath: Levels/Rhyme_Quartets
     csvPath: Levels/Rhyme_Quartets/Data/Quartets
+    totalLevels: 75
   - categoryName: Homophones
     folderPath: Levels/Rhyme_Homophones
     csvPath: Levels/Rhyme_Homophones/Data/Homophones
+    totalLevels: 50
   - categoryName: Geography
     folderPath: Levels/Rhyme_Geography
     csvPath: Levels/Rhyme_Geography/Data/Geography
+    totalLevels: 50
   puzzles: []
 --- !u!114 &1531081588
 MonoBehaviour:
