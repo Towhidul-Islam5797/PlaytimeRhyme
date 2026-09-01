@@ -1313,8 +1313,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bfc194fea926924aa6b1d7a27d99c63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PuzzlePrototypeLoader
-  folderPath: Assets/_Import/Level_Easy/Rhyme Couplets Saga
-  csvPath: Assets/_Import/Level_Easy/Rhyme Couplets Saga/Data/Couplets.csv
+  folderPath: Assets/_Import/Resources/Levels/Rhyme_Bonus
+  csvPath: Assets/_Import/Resources/Levels/Rhyme_Bonus/Data/Bonus.csv
   puzzles: []
 --- !u!1 &1014713348
 GameObject:

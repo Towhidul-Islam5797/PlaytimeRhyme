@@ -1531,7 +1531,7 @@ MonoBehaviour:
   - categoryName: Bonus
     folderPath: Levels/Rhyme_Bonus
     csvPath: Levels/Rhyme_Bonus/Data/Bonus
-    totalLevels: 89
+    totalLevels: 90
   - categoryName: Trios
     folderPath: Levels/Rhyme_Trios
     csvPath: Levels/Rhyme_Trios/Data/Trios
@@ -1547,7 +1547,7 @@ MonoBehaviour:
   - categoryName: Geography
     folderPath: Levels/Rhyme_Geography
     csvPath: Levels/Rhyme_Geography/Data/Geography
-    totalLevels: 50
+    totalLevels: 51
   puzzles: []
 --- !u!114 &1531081588
 MonoBehaviour:
@@ -1599,10 +1599,11 @@ MonoBehaviour:
     finalSegmentPrefab: {fileID: 5405501477213980787, guid: 4c470d51230a8d64389bbec38a3fd557, type: 3}
   - themeName: Geography
     startLevel: 1
-    endLevel: 50
+    endLevel: 51
     segmentVariants:
     - {fileID: 5405501477213980787, guid: 86bc4df4a8b2ad84590ff44add340282, type: 3}
-    finalSegmentPrefab: {fileID: 5405501477213980787, guid: fb938b6b9bf654c4e85dd94cfb3253e3, type: 3}
+    - {fileID: 5405501477213980787, guid: fb938b6b9bf654c4e85dd94cfb3253e3, type: 3}
+    finalSegmentPrefab: {fileID: 0}
   generateThreshold: 0.2
 --- !u!1 &1545030448
 GameObject:
