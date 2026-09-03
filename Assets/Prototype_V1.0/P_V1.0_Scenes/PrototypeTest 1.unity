@@ -6377,9 +6377,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PuzzleLoader
   categories:
-  - categoryName: Geography
-    folderPath: Levels/Rhyme_Geography
-    csvPath: Levels/Rhyme_Geography/Data/Geography
+  - categoryName: Quartets
+    folderPath: Levels/Rhyme_Quartets
+    csvPath: Levels/Rhyme_Quartets/Data/Quartets
     totalLevels: 51
   puzzles: []
 --- !u!1 &1658569669
